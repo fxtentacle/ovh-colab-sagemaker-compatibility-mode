@@ -17,16 +17,19 @@ In your target environment, run
 and copy the result into `package-list.txt`.
 Afterwards, run 
 ```
-!pip3 freeze
+!pip-chill
 ```
 and copy the result into `requirements.txt`.
+Move large requirements such as torch or TensorFlow
+into `requirements-large.txt` so that you 
+don't have to reinstall them in case of version conflicts.
 
 In the Dockerfile, update the CUDA and cudnn versions on top,
 as needed to match the package list.
 
 Run `packagelist2apt.py` 
-to create an updated `apt-install.sh`
-out of your package list.
+to create updated `apt-install-*.sh` scripts
+out of your new package list.
 
 # License
  
