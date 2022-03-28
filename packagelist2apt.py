@@ -10,7 +10,11 @@ lines = list(set(lines)-{'libcudnn8','libcudnn8-dev','libnccl-dev','libnccl2'})
 
 print(lines)
 
-with open("apt-install.sh", "wt") as f:
-    f.write('#!/usr/bin/env bash\nset -eu\n\n')
-    f.write('apt-get install -qy --no-install-recommends ' + " ".join(lines) + '\n')
+splits = [['cuda','libcu'],['opencv','boost','ffmpeg'],['r-cran','r-base'],['misc','']]
+for split in splits:
+    with open(f"apt-install-{split[0]}.sh", "wt") as f:
+        f.write('#!/usr/bin/env bash\nset -eu\n\n')
+        subset = [l for l in lines if any(s in l for s in split)]
+        f.write('DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends ' + " ".join(subset) + '\n')
+        lines = list(set(lines) - set(subset))
 
