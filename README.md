@@ -23,6 +23,13 @@ and copy the result into `requirements.txt`.
 Move large requirements such as torch or TensorFlow
 into `requirements-large.txt` so that you 
 don't have to reinstall them in case of version conflicts.
+Also exclude
+
+- en_core_web_sm
+- GDAL
+- fbprophet
+ 
+because they have to be installed separately.
 
 In the Dockerfile, update the CUDA and cudnn versions on top,
 as needed to match the package list.
