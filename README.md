@@ -8,6 +8,26 @@ For example, this allows you to try out
 those Huggingface Transformers Examples
 in a private european Cloud.
 
+# How to update
+
+In your target environment, run
+```
+!apt list --installed
+```
+and copy the result into `package-list.txt`.
+Afterwards, run 
+```
+!pip3 freeze
+```
+and copy the result into `requirements.txt`.
+
+In the Dockerfile, update the CUDA and cudnn versions on top,
+as needed to match the package list.
+
+Run `packagelist2apt.py` 
+to create an updated `apt-install.sh`
+out of your package list.
+
 # License
  
 Copyright 2022 by Hajo Nils Krabbenhöft
