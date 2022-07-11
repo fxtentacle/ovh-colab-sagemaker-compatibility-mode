@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.1.1-cudnn8-devel-ubuntu18.04
+FROM nvidia/cuda:11.6.2-cudnn8-devel-ubuntu18.04
 
 # Change default shell
 RUN chsh -s /bin/bash
@@ -53,8 +53,9 @@ RUN apt-get -qq clean && rm -rf /var/lib/apt/lists/*
 
 RUN python3.7 -m pip install --upgrade pip && python3.7 -m pip install setuptools==57.5.0
 
-COPY requirements-large.txt /tmp/docker-requirements-large.txt
-RUN python3.7 -m pip install -r /tmp/docker-requirements-large.txt
+RUN python3.7 -m pip install "jax[cuda11_cudnn82]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
+RUN python3.7 -m pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116
+RUN python3.7 -m pip install tensorflow==2.9.1 tensorboard==2.9.1
 
 COPY requirements.txt /tmp/docker-requirements.txt
 RUN python3.7 -m pip install -r /tmp/docker-requirements.txt
@@ -91,7 +92,7 @@ ENV PATH $NODE_PATH:$PATH
 
 # Install Jupyter
 RUN pip install pip==20.3.4 && \
-    pip install jupyterlab==2.2.9 ipywidgets==7.6.3 && \
+    pip install jupyterlab==3.4.3 ipywidgets==7.7.1 && \
     jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
     jupyter nbextension enable --py widgetsnbextension #enable ipywidgets
 
